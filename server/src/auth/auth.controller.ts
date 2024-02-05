@@ -1,10 +1,9 @@
-// src/auth/auth.controller.ts
-
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req, Session, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { Request, Response } from 'express';
 
-@Controller('auth')
+@Controller('auth/local')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -15,27 +14,51 @@ export class AuthController {
   async register(
     @Body() body: { username: string; email: string; password: string },
   ) {
-    const { email } = body;
+    const { email, password, username } = body;
     const existingUser = await this.usersService.findUserByEmail(email);
 
     if (existingUser) {
       return { message: 'User already exists' };
     }
 
-    await this.usersService.createUser(body);
+    const hash = await this.authService.generateHash(password);
+    await this.usersService.createUser({ email, username, hash });
+
     return { message: 'User registered successfully' };
   }
 
   @Post('login')
-  async login(@Body() body: { username: string; password: string }) {
-    const { username, password } = body;
-    const user = await this.authService.validateUser(username, password);
+  async login(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+    @Session() session: Record<string, string>,
+  ) {
+    const { email, password } = request.body;
+    const user = await this.authService.validateUser(email, password);
 
     if (!user) {
       return { message: 'Invalid credentials' };
     }
 
-    // In a real-world scenario, generate a JWT token and return it in the response
-    return { message: 'Login successful', user };
+    const { id } = user;
+    session.clientId = id;
+
+    const { access_token, refresh_token } = await this.authService.login(user);
+
+    response.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+    });
+
+    return { message: 'Login successful', access_token };
+  }
+
+  @Post('refresh-token')
+  async refresh(@Req() request: Request) {
+    const { id } = request.body;
+    const refreshToken = request.cookies['refresh_token'];
+
+    await this.authService.refreshTokens(id, refreshToken);
+
+    return { message: 'Refresh successful' };
   }
 }

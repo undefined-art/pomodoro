@@ -9,7 +9,7 @@ async function main() {
     data: {
       email: 'test',
       username: 'testuser',
-      password: 'testpassword',
+      hash: 'qrwqwrqwr',
     },
   });
 
