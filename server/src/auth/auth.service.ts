@@ -115,4 +115,10 @@ export class AuthService {
   async updateRefreshToken(userId: number, refreshToken: string) {
     await this.usersService.updateUser(userId, { refreshToken });
   }
+
+  async verifyToken(token: string) {
+    return await this.jwtService.verifyAsync(token, {
+      secret: process.env.ACCESS_TOKEN_SECRET,
+    });
+  }
 }
