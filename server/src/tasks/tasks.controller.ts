@@ -1,4 +1,3 @@
-// src/tasks/tasks.controller.ts
 import {
   Body,
   Controller,
@@ -8,16 +7,20 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './dto/create-task/create-task.dto';
+
+import { AuthGuard } from 'src/guards/auth.guard';
+import { TaskModificationDto } from './dto/task-modification.dto';
 
 @Controller('tasks')
+@UseGuards(AuthGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  createTask(@Body() createTaskDto: CreateTaskDto) {
+  createTask(@Body() createTaskDto: TaskModificationDto) {
     return this.tasksService.createTask(createTaskDto);
   }
 
@@ -34,7 +37,7 @@ export class TasksController {
   @Put(':id')
   updateTask(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateTaskDto: CreateTaskDto,
+    @Body() updateTaskDto: TaskModificationDto,
   ) {
     return this.tasksService.updateTask(id, updateTaskDto);
   }

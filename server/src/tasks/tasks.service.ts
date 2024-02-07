@@ -1,15 +1,14 @@
-// src/tasks/tasks.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTaskDto } from './dto/create-task/create-task.dto';
+import { TaskModificationDto } from './dto/task-modification.dto';
 
 @Injectable()
 export class TasksService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createTask(createTaskDto: CreateTaskDto) {
+  async createTask(task: TaskModificationDto) {
     return this.prismaService.task.create({
-      data: createTaskDto,
+      data: task,
     });
   }
 
@@ -29,7 +28,7 @@ export class TasksService {
     return task;
   }
 
-  async updateTask(id: number, updateTaskDto: CreateTaskDto) {
+  async updateTask(id: number, updatedTask: TaskModificationDto) {
     const existingTask = await this.getTaskById(id);
 
     if (!existingTask) {
@@ -38,7 +37,7 @@ export class TasksService {
 
     return this.prismaService.task.update({
       where: { id },
-      data: updateTaskDto,
+      data: updatedTask,
     });
   }
 
