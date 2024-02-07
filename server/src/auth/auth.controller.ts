@@ -1,7 +1,18 @@
-import { Controller, Post, Body, Req, Session, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  Session,
+  Res,
+  BadRequestException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { Request, Response } from 'express';
+import { UserRegisterDto } from './dto/user-register.dto';
+import { UserLoginDto } from './dto/user-login.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Controller('auth/local')
 export class AuthController {
@@ -11,14 +22,15 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(
-    @Body() body: { username: string; email: string; password: string },
-  ) {
+  async register(@Body() body: UserRegisterDto) {
     const { email, password, username } = body;
     const existingUser = await this.usersService.findUserByEmail(email);
 
     if (existingUser) {
-      return { message: 'User already exists' };
+      throw new BadRequestException('User with this email already exist', {
+        cause: new Error(),
+        description: 'Email is not unique',
+      });
     }
 
     const hash = await this.authService.generateHash(password);
@@ -29,11 +41,11 @@ export class AuthController {
 
   @Post('login')
   async login(
-    @Req() request: Request,
+    @Body() body: UserLoginDto,
     @Res({ passthrough: true }) response: Response,
     @Session() session: Record<string, string>,
   ) {
-    const { email, password } = request.body;
+    const { email, password } = body;
     const user = await this.authService.validateUser(email, password);
 
     if (!user) {
@@ -53,8 +65,8 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  async refresh(@Req() request: Request) {
-    const { id } = request.body;
+  async refresh(@Body() body: RefreshTokenDto, @Req() request: Request) {
+    const { id } = body;
     const refreshToken = request.cookies['refresh_token'];
 
     await this.authService.refreshTokens(id, refreshToken);

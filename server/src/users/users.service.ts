@@ -7,7 +7,6 @@ export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createUser(data: Prisma.UserCreateInput): Promise<any> {
-    // TODO: unique username message
     return await this.prismaService.user.create({
       data,
     });
