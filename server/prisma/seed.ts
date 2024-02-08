@@ -15,7 +15,7 @@ async function main() {
 
   // Example: Creating test tasks
   await prisma.task.create({
-    data: { title: 'Task 1', completed: false },
+    data: { title: 'Task 1', completed: false, createdBy: 1 },
   });
 }
 

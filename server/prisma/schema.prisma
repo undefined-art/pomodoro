@@ -9,9 +9,13 @@ datasource db {
 }
 
 model Task {
-    id        Int     @id @default(autoincrement()) @map("_id")
+    id        Int      @id @default(autoincrement()) @map("_id")
     title     String
     completed Boolean
+    projectId Int?
+    createdBy Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model User {
