@@ -7,12 +7,14 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 
 import { AuthGuard } from 'src/guards/auth.guard';
 import { TaskModificationDto } from './dto/task-modification.dto';
+import { TaskUpdateDto } from './dto/task-update.dto';
 
 @Controller('tasks')
 @UseGuards(AuthGuard)
@@ -20,8 +22,14 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  createTask(@Body() createTaskDto: TaskModificationDto) {
-    return this.tasksService.createTask(createTaskDto);
+  createTask(
+    @Body() createTaskDto: TaskModificationDto,
+    @Session() session: Record<string, number>,
+  ) {
+    return this.tasksService.createTask({
+      ...createTaskDto,
+      createdBy: session.clientId,
+    });
   }
 
   @Get()
@@ -37,7 +45,7 @@ export class TasksController {
   @Put(':id')
   updateTask(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateTaskDto: TaskModificationDto,
+    @Body() updateTaskDto: TaskUpdateDto,
   ) {
     return this.tasksService.updateTask(id, updateTaskDto);
   }

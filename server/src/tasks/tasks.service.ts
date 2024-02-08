@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TaskModificationDto } from './dto/task-modification.dto';
+import { TaskUpdateDto } from './dto/task-update.dto';
 
 @Injectable()
 export class TasksService {
@@ -28,7 +29,7 @@ export class TasksService {
     return task;
   }
 
-  async updateTask(id: number, updatedTask: TaskModificationDto) {
+  async updateTask(id: number, updatedTask: TaskUpdateDto) {
     const existingTask = await this.getTaskById(id);
 
     if (!existingTask) {
