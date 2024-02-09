@@ -1,5 +1,13 @@
-import { component$, Slot } from "@builder.io/qwik";
+import type { Signal } from "@builder.io/qwik";
+import {
+  component$,
+  createContextId,
+  Slot,
+  useContextProvider,
+  useSignal,
+} from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
+import Header from "~/components/header";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -12,6 +20,17 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
+export const AuthContext =
+  createContextId<Signal<Record<string, unknown>>>("auth-context");
+
 export default component$(() => {
-  return <Slot />;
+  const auth = useSignal({});
+  useContextProvider(AuthContext, auth);
+
+  return (
+    <div class="h-screen">
+      <Header />
+      <Slot />
+    </div>
+  );
 });
