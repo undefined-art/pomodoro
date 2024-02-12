@@ -4,20 +4,24 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL,
     "projectId" INTEGER,
+    "pomodoro" INTEGER DEFAULT 1,
+    "sessions" INTEGER DEFAULT 0,
+    "draft" BOOLEAN DEFAULT false,
     "createdBy" INTEGER NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expiredAt" DATETIME
 );
 
 -- CreateTable
 CREATE TABLE "User" (
     "_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "refreshToken" TEXT
+    "refreshToken" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateIndex

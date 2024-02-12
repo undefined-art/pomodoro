@@ -13,7 +13,7 @@ import {
 import { TasksService } from './tasks.service';
 
 import { AuthGuard } from 'src/guards/auth.guard';
-import { TaskModificationDto } from './dto/task-modification.dto';
+import { TaskCreateDto } from './dto/task-create.dto';
 import { TaskUpdateDto } from './dto/task-update.dto';
 
 @Controller('tasks')
@@ -23,7 +23,7 @@ export class TasksController {
 
   @Post()
   createTask(
-    @Body() createTaskDto: TaskModificationDto,
+    @Body() createTaskDto: TaskCreateDto,
     @Session() session: Record<string, number>,
   ) {
     return this.tasksService.createTask({
@@ -35,6 +35,11 @@ export class TasksController {
   @Get()
   getAllTasks() {
     return this.tasksService.getAllTasks();
+  }
+
+  @Get('/project/:id')
+  getSpecificProjectTasks(@Param('id', ParseIntPipe) id: number) {
+    return this.tasksService.getProjectTasks(id);
   }
 
   @Get(':id')
