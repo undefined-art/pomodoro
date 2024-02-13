@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -11,23 +12,25 @@ export class TaskCreateDto {
   @IsNotEmpty()
   title: string;
 
+  @IsNumber()
+  @IsOptional()
+  createdBy: number;
+
   @IsBoolean()
   @IsOptional()
   completed: boolean;
 
-  @IsNumber()
   @IsOptional()
-  projectId: number;
+  projectId?: never;
+
+  @IsOptional()
+  project?: Record<string, unknown>;
 
   @IsNumber()
   @IsOptional()
   pomodoro: number;
 
-  @IsNumber()
+  @IsDate()
   @IsOptional()
-  createdBy: number;
-
-  @IsNumber()
-  @IsOptional()
-  expiredAt: number;
+  expiredAt: string | Date;
 }
