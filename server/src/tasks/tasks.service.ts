@@ -14,7 +14,7 @@ export class TasksService {
   }
 
   async getAllTasks() {
-    return this.prismaService.task.findMany();
+    return this.prismaService.task.findMany({ include: { project: true } });
   }
 
   async getProjectTasks(projectId: number) {

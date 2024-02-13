@@ -20,6 +20,14 @@ export class AuthGuard implements CanActivate {
         throw new UnauthorizedException('Please provide token');
       }
 
+      const sessionClientId = request.session.clientId;
+
+      if (!sessionClientId) {
+        throw new UnauthorizedException(
+          'Something happens with current user session',
+        );
+      }
+
       const authToken = authorization.replace(/bearer/gim, '').trim();
       const isVerified = await this.authService.verifyToken(authToken);
 

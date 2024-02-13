@@ -3,17 +3,17 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.create({
-    data: {
-      email: 'test@test.com',
-      username: 'test',
-      hash: 'qrwqwrqwr',
-    },
-  });
-
-  await prisma.task.create({
-    data: { title: 'Task 1', completed: false, createdBy: 1 },
-  });
+  // TODO ---
+  // await prisma.user.create({
+  //   data: {
+  //     email: 'test@test.com',
+  //     username: 'test',
+  //     hash: 'qrwqwrqwr',
+  //   },
+  // });
+  // await prisma.task.create({
+  //   data: { title: 'Task 1', completed: false, createdBy: 1 },
+  // });
 }
 
 main()

@@ -11,7 +11,8 @@ model Task {
     id        Int      @id @default(autoincrement()) @map("_id")
     title     String
     completed Boolean? @default(false)
-    projectId Int?
+    projectId Int      @unique
+    project   Project? @relation(fields: [projectId], references: [id])
 
     pomodoro Int?     @default(1)
     sessions Int?     @default(0)
@@ -30,6 +31,8 @@ model Project {
     createdBy Int
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    tasks Task?
 }
 
 model User {
