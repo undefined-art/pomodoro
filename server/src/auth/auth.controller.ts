@@ -49,7 +49,10 @@ export class AuthController {
     const user = await this.authService.validateUser(email, password);
 
     if (!user) {
-      return { message: 'Invalid credentials' };
+      throw new BadRequestException('Invalid credentials', {
+        cause: new Error(),
+        description: 'Invalid credentials',
+      });
     }
 
     const { id } = user;
@@ -71,6 +74,6 @@ export class AuthController {
 
     await this.authService.refreshTokens(id, refreshToken);
 
-    return { message: 'Refresh successful' };
+    return { message: 'Token refresh successful' };
   }
 }
