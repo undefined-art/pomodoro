@@ -68,7 +68,6 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    console.log(user.refreshToken, reqToken);
     const refreshTokenMatches = user.refreshToken === reqToken;
 
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');

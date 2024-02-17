@@ -10,11 +10,13 @@ import {
 const DEFAULT_USER_DATA = {
   username: "",
   avatar_url: "",
+  is_authenticated: false,
 };
 
 type UserType = {
   username: string;
   avatar_url: string;
+  is_authenticated: boolean;
 };
 
 type AuthContextPropsType = {

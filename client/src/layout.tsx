@@ -1,12 +1,15 @@
+import Navbar from "./components/header";
 import { AuthContextProvider } from "./context/auth";
-import Navbar from "./components/navbar";
+import { ViewportContextProvider } from "./context/viewport";
 
 const Layout = (props: any) => {
   return (
-    <div>
-      <Navbar />
-      <AuthContextProvider>{props.children}</AuthContextProvider>
-    </div>
+    <AuthContextProvider>
+      <ViewportContextProvider>
+        <Navbar />
+        {props.children}
+      </ViewportContextProvider>
+    </AuthContextProvider>
   );
 };
 
