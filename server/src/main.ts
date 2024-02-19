@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { CoreExceptionsFilter } from './global-filters/core-exceptions.filter';
 import { ResponseInterceptor } from './interceptors/response-interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { PrismaClientExceptionFilter } from './global-filters/prisma-client-exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -14,7 +15,10 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
   app.use(cookieParser());
-  app.useGlobalFilters(new CoreExceptionsFilter(httpAdapterHost));
+  app.useGlobalFilters(
+    new CoreExceptionsFilter(httpAdapterHost),
+    new PrismaClientExceptionFilter(httpAdapterHost.httpAdapter),
+  );
 
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
