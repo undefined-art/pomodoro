@@ -58,7 +58,7 @@ const MobileNav = () => {
         <Portal mount={document.querySelector("#page-nav") as Node}>
           <div class="sm:hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2 bg-gray-800">
-              <A
+              {/* <A
                 href="/technique"
                 class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
                 aria-current="page"
@@ -70,6 +70,12 @@ const MobileNav = () => {
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
               >
                 About this app
+              </A> */}
+              <A
+                href="/todos"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              >
+                TODO List
               </A>
             </div>
           </div>

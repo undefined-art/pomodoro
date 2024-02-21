@@ -7,7 +7,9 @@ const Layout = (props: any) => {
     <AuthContextProvider>
       <ViewportContextProvider>
         <Navbar />
-        {props.children}
+        <div class="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-gray-800">
+          {props.children}
+        </div>
       </ViewportContextProvider>
     </AuthContextProvider>
   );
