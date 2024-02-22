@@ -1,8 +1,8 @@
-const Todo = ({ task }: any) => {
-  const { title, description, created, status } = task || {};
+const Task = ({ task }: any) => {
+  const { title, description, created, status, id } = task || {};
 
   return (
-    <li class="px-4 py-5 sm:px-6 bg-white shadow overflow-hidden sm:rounded-md hover:bg-gray-50 cursor-pointer">
+    <li class="px-4 py-5 sm:px-6 bg-white shadow overflow-hidden rounded-md hover:bg-gray-50 cursor-pointer">
       <div class="flex items-center justify-between">
         <h3 class="text-lg leading-6 font-medium text-gray-900">{title}</h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
@@ -19,4 +19,4 @@ const Todo = ({ task }: any) => {
   );
 };
 
-export default Todo;
+export default Task;

@@ -1,6 +1,7 @@
-import Todo from "./todo";
+import { For } from "solid-js";
+import Task from "./task";
 
-const TODOS_MOCK = [
+const TASKS_MOCK = [
   {
     id: 0,
     title: "Test task",
@@ -24,14 +25,12 @@ const TODOS_MOCK = [
   },
 ];
 
-const TodoList = () => {
+const TaskList = () => {
   return (
-    <ul class="max-w-sm mx-auto gap-4 grid grid-cols-1">
-      {TODOS_MOCK.map((task) => (
-        <Todo task={task} />
-      ))}
+    <ul class="m-auto gap-4 grid grid-cols-1 w-5/6 max-w-lg">
+      <For each={TASKS_MOCK}>{(task) => <Task task={task} />}</For>
     </ul>
   );
 };
 
-export default TodoList;
+export default TaskList;

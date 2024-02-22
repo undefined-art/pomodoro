@@ -2,7 +2,11 @@ import Navbar from "./components/header";
 import { AuthContextProvider } from "./context/auth";
 import { ViewportContextProvider } from "./context/viewport";
 
-const Layout = (props: any) => {
+interface Props {
+  children: Element;
+}
+
+const Layout = (props: Props) => {
   return (
     <AuthContextProvider>
       <ViewportContextProvider>
