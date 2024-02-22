@@ -1,6 +1,7 @@
 import { A } from "@solidjs/router";
-import { createSignal } from "solid-js";
+import { For, createSignal } from "solid-js";
 import { Portal } from "solid-js/web";
+import { NAVIGATION_LINKS } from "./constants";
 
 const MobileNav = () => {
   const [navbarOpen, setNavbarOpen] = createSignal(false);
@@ -57,26 +58,17 @@ const MobileNav = () => {
       {navbarOpen() && (
         <Portal mount={document.querySelector("#page-nav") as Node}>
           <div class="sm:hidden" id="mobile-menu">
-            <div class="space-y-1 px-2 pb-3 pt-2 bg-gray-800">
-              {/* <A
-                href="/technique"
-                class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-                aria-current="page"
-              >
-                Technique
-              </A>
-              <A
-                href="/about"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-              >
-                About this app
-              </A> */}
-              <A
-                href="/todos"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-              >
-                TODO List
-              </A>
+            <div class="space-y-1 bg-gray-900 w-5/6 max-w-lg m-auto rounded-md">
+              <For each={NAVIGATION_LINKS}>
+                {({ title, path }) => (
+                  <A
+                    href={path}
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                  >
+                    {title}
+                  </A>
+                )}
+              </For>
             </div>
           </div>
         </Portal>

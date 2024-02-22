@@ -1,4 +1,6 @@
 import { A } from "@solidjs/router";
+import { NAVIGATION_LINKS } from "./constants";
+import { For } from "solid-js";
 
 const WideNav = () => (
   <>
@@ -15,25 +17,16 @@ const WideNav = () => (
     </div>
     <div class="hidden sm:ml-6 sm:block">
       <div class="flex space-x-4">
-        {/* <A
-          href="/technique"
-          class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-          aria-current="page"
-        >
-          Technique
-        </A>
-        <A
-          href="/about"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-        >
-          About this app
-        </A> */}
-        <A
-          href="/todos"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-        >
-          TODO List
-        </A>
+        <For each={NAVIGATION_LINKS}>
+          {({ title, path }) => (
+            <A
+              href={path}
+              class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+            >
+              {title}
+            </A>
+          )}
+        </For>
       </div>
     </div>
   </>
