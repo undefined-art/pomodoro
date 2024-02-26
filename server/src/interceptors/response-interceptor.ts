@@ -27,6 +27,7 @@ export class ResponseInterceptor implements NestInterceptor {
       timestamp: new Date().toISOString(),
       path: request.url,
       message: res.message,
+      data: res,
     };
   }
 }

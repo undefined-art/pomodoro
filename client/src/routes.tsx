@@ -1,4 +1,5 @@
 import { lazy } from "solid-js";
+import AuthGuard from "./guards/AuthGuard";
 
 const routes = [
   {
@@ -11,7 +12,9 @@ const routes = [
       },
       {
         path: "/tasks",
-        component: lazy(() => import("./pages/tasks")),
+        component: () => (
+          <AuthGuard>{lazy(() => import("./pages/tasks"))}</AuthGuard>
+        ),
       },
     ],
   },

@@ -1,52 +1,62 @@
-import axios, { Method } from "axios";
+import axios, { AxiosResponse, Method } from "axios";
 import { createSignal, onMount } from "solid-js";
 
-type UseRequestPropsType = {
+type UseRequestPropsType<T> = {
   url: string;
-  method: Method;
-  data?: unknown;
+  method?: Method;
+  data?: T;
   withCredentials?: boolean;
   isFetch?: boolean;
 };
 
-export const useRequest = ({
+export const useRequest = <T>({
   url,
-  method,
+  method = "GET",
   data,
   isFetch = false,
-}: UseRequestPropsType) => {
+}: UseRequestPropsType<T>) => {
   const [isPending, setIsPending] = createSignal<boolean>(false);
   const [error, setError] = createSignal<unknown>(null);
-  const [response, setResponse] = createSignal<unknown>(null);
+  const [response, setResponse] = createSignal<T | null>(null);
   const [status, setStatus] = createSignal<number | null>(null);
 
   // TODO: withCredentials  take token from local storage  and add auth header
   const headers = { "Content-Type": "application/json" };
 
+  const onRequestFinalize = (response: AxiosResponse<any>) => {
+    setStatus(response.status);
+    setResponse(response.data?.data);
+    setIsPending(false);
+  };
+
   const request = async () => {
-    return await axios.request({ url, method, headers, data });
+    let request = null;
+
+    setIsPending(true);
+    setError(null);
+
+    try {
+      request = await axios.request({ url, method, headers, data });
+    } catch (error) {
+      throw new Error("Something went wrong with request!");
+    }
+
+    onRequestFinalize(request);
+
+    return request;
   };
 
   onMount(async () => {
-    setIsPending(true);
-    setError(null);
     if (isFetch) {
-      const response = await request();
-
-      setStatus(response.status);
-      setResponse(response.data);
-
-      setIsPending(false);
-
-      console.log(response);
+      await request();
     }
   });
 
   return {
-    isPending: isPending(),
-    error: error(),
-    data: response(),
-    status: status(),
+    isPending,
+    error,
+    response,
+    status,
     request,
   };
 };
