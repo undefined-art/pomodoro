@@ -3,12 +3,14 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -61,7 +63,7 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
 
     const isValid = await this.jwtService.verifyAsync(user.refreshToken, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
+      secret: this.configService.get<string>('jwt.refresh_secret'),
     });
 
     if (!isValid) {
@@ -83,6 +85,8 @@ export class AuthService {
   }
 
   async generateHash(payload: string): Promise<string> {
+    console.log(this.configService.get<string>('jwt.access_secret'));
+
     return await bcrypt.hash(payload, 12);
   }
 
@@ -99,14 +103,14 @@ export class AuthService {
 
   async generateAccessToken(payload: any): Promise<string> {
     return await this.jwtService.signAsync(payload, {
-      secret: process.env.ACCESS_TOKEN_SECRET,
+      secret: this.configService.get<string>('jwt.access_secret'),
       expiresIn: '15m',
     });
   }
 
   async generateRefreshToken(payload: any): Promise<string> {
     return await this.jwtService.signAsync(payload, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
+      secret: this.configService.get<string>('jwt.refresh_secret'),
       expiresIn: '7d',
     });
   }
@@ -117,7 +121,7 @@ export class AuthService {
 
   async verifyToken(token: string) {
     return await this.jwtService.verifyAsync(token, {
-      secret: process.env.ACCESS_TOKEN_SECRET,
+      secret: this.configService.get<string>('jwt.access_secret'),
     });
   }
 }
