@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProjectsModule } from './projects/projects.module';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
@@ -13,7 +14,10 @@ import { ProjectsModule } from './projects/projects.module';
     UsersModule,
     AuthModule,
     ProjectsModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

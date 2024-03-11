@@ -8,13 +8,16 @@ import { CoreExceptionsFilter } from './global-filters/core-exceptions.filter';
 import { ResponseInterceptor } from './interceptors/response-interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { PrismaClientExceptionFilter } from './global-filters/prisma-client-exception-filter';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   const httpAdapterHost = app.get(HttpAdapterHost);
+  const configService = app.get(ConfigService);
 
   app.setGlobalPrefix('api/v1');
   app.use(cookieParser());
+
   app.useGlobalFilters(
     new CoreExceptionsFilter(httpAdapterHost),
     new PrismaClientExceptionFilter(httpAdapterHost.httpAdapter),
@@ -33,13 +36,13 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
+      secret: configService.get<string>('session.secret'),
       resave: false,
       saveUninitialized: false,
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(configService.get<string>('port'));
 }
 
 bootstrap();
