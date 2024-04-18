@@ -1,6 +1,6 @@
-import Navbar from "./components/header";
-import { AuthContextProvider } from "./context/auth";
-import { ViewportContextProvider } from "./context/viewport";
+import Navbar from './components/header';
+import { AuthContextProvider } from './context/auth';
+import { ViewportContextProvider } from './context/viewport';
 
 interface Props {
   children: Element;

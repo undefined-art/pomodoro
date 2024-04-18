@@ -1,27 +1,36 @@
 import { lazy } from "solid-js";
 import AuthGuard from "./guards/AuthGuard";
+import { RouteDefinition } from "@solidjs/router";
+
+const Layout = lazy(() => import("./layout"));
+const Home = lazy(() => import("./pages/home"));
+const Login = lazy(() => import("./pages/auth/login"));
+const Error = lazy(() => import("./pages/error"));
+const Tasks = lazy(() => import("./pages/tasks"));
 
 const routes = [
   {
     path: "/",
-    component: lazy(() => import("./layout")),
+    component: Layout,
     children: [
       {
         path: "/",
-        component: lazy(() => import("./pages/home")),
+        component: Home,
       },
       {
         path: "/tasks",
-        component: () => (
-          <AuthGuard>{lazy(() => import("./pages/tasks"))}</AuthGuard>
-        ),
+        component: () => <AuthGuard>{Tasks}</AuthGuard>,
+      },
+      {
+        path: "/sign-in",
+        component: Login,
       },
     ],
   },
   {
     path: "/*all",
-    component: lazy(() => import("./pages/error")),
+    component: Error,
   },
-];
+] as RouteDefinition;
 
 export default routes;

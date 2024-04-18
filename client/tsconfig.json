@@ -11,5 +11,16 @@
     "types": ["vite/client"],
     "noEmit": true,
     "isolatedModules": true
-  }
+  },
+  "include": [
+    "src/**/*",
+    "packages/**/*",
+    "*.ts",
+    "*.js",
+    "*.cjs",
+    "*.mjs",
+    ".commitlintrc.js",
+    ".stylelintrc.js"
+  ],
+  "exclude": ["node_modules", "build", "dist", "bin", "coverage", "**/*.map"]
 }

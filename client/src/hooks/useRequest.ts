@@ -7,6 +7,7 @@ type UseRequestPropsType<T> = {
   data?: T;
   withCredentials?: boolean;
   isFetch?: boolean;
+  onFinalize?: (response: any) => void;
 };
 
 export const useRequest = <T>({
@@ -14,6 +15,7 @@ export const useRequest = <T>({
   method = "GET",
   data,
   isFetch = false,
+  onFinalize,
 }: UseRequestPropsType<T>) => {
   const [isPending, setIsPending] = createSignal<boolean>(false);
   const [error, setError] = createSignal<unknown>(null);
@@ -27,16 +29,23 @@ export const useRequest = <T>({
     setStatus(response.status);
     setResponse(response.data?.data);
     setIsPending(false);
+
+    onFinalize?.(response.data?.data);
   };
 
-  const request = async () => {
+  const request = async (external?: unknown) => {
     let request = null;
 
     setIsPending(true);
     setError(null);
 
     try {
-      request = await axios.request({ url, method, headers, data });
+      request = await axios.request({
+        url,
+        method,
+        headers,
+        data: data || external,
+      });
     } catch (error) {
       throw new Error("Something went wrong with request!");
     }

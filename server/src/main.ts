@@ -2,7 +2,7 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
-import * as csurf from 'csurf';
+// import * as csurf from 'csurf';
 import { ValidationPipe } from '@nestjs/common';
 
 import { CoreExceptionsFilter } from './global-filters/core-exceptions.filter';
@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
   app.use(cookieParser());
-  app.use(csurf());
+  // app.use(csurf());
 
   app.useGlobalFilters(
     new CoreExceptionsFilter(httpAdapterHost),
