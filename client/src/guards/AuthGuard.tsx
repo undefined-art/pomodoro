@@ -11,7 +11,7 @@ const AuthGuard = (props: Props) => {
 
   createEffect(() => {
     if (!token) {
-      navigate("/signin", { replace: true });
+      navigate("/sign-in", { replace: true });
     }
   });
 
