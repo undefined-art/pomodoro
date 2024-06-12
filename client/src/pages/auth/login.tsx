@@ -1,8 +1,7 @@
-import { type Component } from 'solid-js';
-
-import { type SubmitHandler, createForm } from '@modular-forms/solid';
-import { useRequest } from '../../hooks/useRequest';
-import { useAuthContext } from '../../context/auth';
+import { type Component } from "solid-js";
+import { type SubmitHandler, createForm } from "@modular-forms/solid";
+import { useRequest } from "../../hooks/useRequest";
+import { useAppState } from "../../context";
 
 interface LoginFormType {
   email: string;
@@ -10,11 +9,12 @@ interface LoginFormType {
 }
 
 const Login: Component = () => {
-  const { setUser } = useAuthContext();
+  const { setAuth } = useAppState();
+
   const { request } = useRequest({
-    url: 'http://localhost:3001/api/v1/auth/local/login',
-    method: 'POST',
-    onFinalize: (user) => setUser(user),
+    url: "http://localhost:3001/api/v1/auth/local/login",
+    method: "POST",
+    onFinalize: (user) => setAuth(user),
   });
 
   const [loginForm, { Form, Field }] = createForm<LoginFormType>();
@@ -75,7 +75,7 @@ const Login: Component = () => {
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              {loginForm.submitting ? 'Loading...' : 'Sign In'}
+              {loginForm.submitting ? "Loading..." : "Sign In"}
             </button>
             <a
               class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
