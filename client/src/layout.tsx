@@ -1,21 +1,20 @@
-import Navbar from './components/header';
-import { AuthContextProvider } from './context/auth';
-import { ViewportContextProvider } from './context/viewport';
+import Navbar from "./components/header";
+import { useLocalizationContext } from "./context/localization";
 
 interface Props {
   children: Element;
 }
 
 const Layout = (props: Props) => {
+  const { duringTransition } = useLocalizationContext();
+
   return (
-    <AuthContextProvider>
-      <ViewportContextProvider>
-        <Navbar />
-        <div class="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-gray-800">
-          {props.children}
-        </div>
-      </ViewportContextProvider>
-    </AuthContextProvider>
+    <div style={{ opacity: duringTransition() ? 0.5 : 1 }}>
+      <Navbar />
+      <div class="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-gray-800">
+        {props.children}
+      </div>
+    </div>
   );
 };
 

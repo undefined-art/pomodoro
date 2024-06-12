@@ -4,6 +4,7 @@ import { render } from "solid-js/web";
 import "./index.css";
 import { Router } from "@solidjs/router";
 import routes from "./routes";
+import AppProviders from "./providers";
 
 const root = document.getElementById("root");
 
@@ -13,4 +14,7 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <Router>{routes}</Router>, root!);
+render(
+  () => <AppProviders>{(<Router>{routes}</Router>) as Element}</AppProviders>,
+  root!
+);
