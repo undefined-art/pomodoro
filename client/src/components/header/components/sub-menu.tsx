@@ -1,9 +1,9 @@
 import { createSignal } from "solid-js";
-import { useAuthContext } from "../../../context/auth";
 import { useNavigate } from "@solidjs/router";
+import { useAppState } from "../../../context";
 
 const SubMenu = () => {
-  const { user } = useAuthContext();
+  const { auth } = useAppState();
   const navigate = useNavigate();
   const [subMenuOpen, setSubMenuOpen] = createSignal(false);
 
@@ -11,7 +11,7 @@ const SubMenu = () => {
     setSubMenuOpen((prev) => !prev);
   };
 
-  if (!user().is_authenticated) {
+  if (!auth.is_authenticated) {
     return (
       <button
         type="button"

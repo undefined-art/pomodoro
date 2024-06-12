@@ -11,6 +11,12 @@ dependencies:
   '@solid-primitives/i18n':
     specifier: ^2.1.1
     version: 2.1.1(solid-js@1.8.11)
+  '@solid-primitives/storage':
+    specifier: ^3.7.0
+    version: 3.7.0(solid-js@1.8.11)
+  '@solidjs/meta':
+    specifier: ^0.29.4
+    version: 0.29.4(solid-js@1.8.11)
   '@solidjs/router':
     specifier: ^0.13.5
     version: 0.13.5(solid-js@1.8.11)
@@ -988,6 +994,22 @@ packages:
       solid-js: 1.8.11
     dev: true
 
+  /@solid-primitives/storage@3.7.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-BPQeD0+x3SU+5fBQSkEIaaV2oSP8yubtVRPNbyDhoZ3MWivoizI3/fI1YRei3JVULXi6D5RRyq8CnZ5umUC/KQ==}
+    peerDependencies:
+      '@tauri-apps/plugin-store': '*'
+      solid-js: ^1.6.12
+      solid-start: '*'
+    peerDependenciesMeta:
+      '@tauri-apps/plugin-store':
+        optional: true
+      solid-start:
+        optional: true
+    dependencies:
+      '@solid-primitives/utils': 6.2.3(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
   /@solid-primitives/styles@0.0.111(solid-js@1.8.11):
     resolution: {integrity: sha512-1mBxOGAPXmfD5oYCvqjKBDN7SuNjz2qz7RdH7KtsuNLQh6lpuSKadtHnLvru0Y8Vz1InqTJisBIy/6P5kyDmPw==}
     peerDependencies:
@@ -1005,6 +1027,22 @@ packages:
     dependencies:
       solid-js: 1.8.11
     dev: true
+
+  /@solid-primitives/utils@6.2.3(solid-js@1.8.11):
+    resolution: {integrity: sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.11
+    dev: false
+
+  /@solidjs/meta@0.29.4(solid-js@1.8.11):
+    resolution: {integrity: sha512-zdIWBGpR9zGx1p1bzIPqF5Gs+Ks/BH8R6fWhmUa/dcK1L2rUC8BAcZJzNRYBQv74kScf1TSOs0EY//Vd/I0V8g==}
+    peerDependencies:
+      solid-js: '>=1.8.4'
+    dependencies:
+      solid-js: 1.8.11
+    dev: false
 
   /@solidjs/router@0.13.5(solid-js@1.8.11):
     resolution: {integrity: sha512-I/bR5ZHCz2Dx80qL+6uGwSdclqXRqoT49SJ5cvLbOuT3HnYysSIxSfULCTWUMLFVcgPh5GrdHV6KwEoyrbPZZA==}
