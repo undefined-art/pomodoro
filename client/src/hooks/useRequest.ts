@@ -15,6 +15,7 @@ export const useRequest = <T>({
   method = "GET",
   data,
   isFetch = false,
+  withCredentials = true,
   onFinalize,
 }: UseRequestPropsType<T>) => {
   const [isPending, setIsPending] = createSignal<boolean>(false);
@@ -22,15 +23,24 @@ export const useRequest = <T>({
   const [response, setResponse] = createSignal<T | null>(null);
   const [status, setStatus] = createSignal<number | null>(null);
 
-  // TODO: withCredentials  take token from local storage  and add auth header
-  const headers = { "Content-Type": "application/json" };
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("access_token");
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    
+    return headers;
+  };
 
   const onRequestFinalize = (response: AxiosResponse<any>) => {
     setStatus(response.status);
-    setResponse(response.data?.data);
+    setResponse(response.data?.data || response.data);
     setIsPending(false);
+    setError(null);
 
-    onFinalize?.(response.data?.data);
+    onFinalize?.(response.data?.data || response.data);
   };
 
   const request = async (external?: unknown) => {
@@ -43,11 +53,22 @@ export const useRequest = <T>({
       request = await axios.request({
         url,
         method,
-        headers,
+        headers: getAuthHeaders(),
         data: data || external,
+        withCredentials,
       });
-    } catch (error) {
-      throw new Error("Something went wrong with request!");
+    } catch (error: any) {
+      setError(error.response?.data?.message || error.message || "Something went wrong");
+      setIsPending(false);
+      
+      // Handle 401 errors by redirecting to login
+      if (error.response?.status === 401) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/sign-in";
+      }
+      
+      throw error;
     }
 
     onRequestFinalize(request);

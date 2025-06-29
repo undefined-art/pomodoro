@@ -20,11 +20,9 @@ export class TaskCreateDto {
   @IsOptional()
   completed: boolean;
 
-  @IsOptional()
-  projectId?: never;
-
-  @IsOptional()
-  project?: Record<string, unknown>;
+  @IsNumber()
+  @IsNotEmpty()
+  projectId: number;
 
   @IsNumber()
   @IsOptional()

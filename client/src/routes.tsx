@@ -5,6 +5,7 @@ import { RouteDefinition } from "@solidjs/router";
 const Layout = lazy(() => import("./layout"));
 const Home = lazy(() => import("./pages/home"));
 const Login = lazy(() => import("./pages/auth/login"));
+const Register = lazy(() => import("./pages/auth/register"));
 const Error = lazy(() => import("./pages/error"));
 const Tasks = lazy(() => import("./pages/tasks"));
 
@@ -24,6 +25,10 @@ const routes = [
       {
         path: "/sign-in",
         component: Login,
+      },
+      {
+        path: "/sign-up",
+        component: Register,
       },
     ],
   },

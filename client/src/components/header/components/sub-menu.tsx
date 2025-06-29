@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate, A } from "@solidjs/router";
 import { useAppState } from "../../../context";
 
 const SubMenu = () => {
@@ -13,13 +13,20 @@ const SubMenu = () => {
 
   if (!auth.is_authenticated) {
     return (
-      <button
-        type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onclick={() => navigate("/register")}
-      >
-        Get Started
-      </button>
+      <div class="flex items-center space-x-4">
+        <A
+          href="/sign-in"
+          class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+        >
+          Sign In
+        </A>
+        <A
+          href="/sign-up"
+          class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+        >
+          Sign Up
+        </A>
+      </div>
     );
   }
 

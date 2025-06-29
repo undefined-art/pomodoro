@@ -5,26 +5,32 @@ import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProjectsModule } from './projects/projects.module';
+import { PrismaModule } from './prisma/prisma.module';
 import configuration from './config/configuration';
 
 @Module({
   imports: [
-    TasksModule,
-    UsersModule,
-    AuthModule,
-    ProjectsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
     }),
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60,
-        limit: 100,
-      },
-    ]),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.get('throttle.ttl'),
+          limit: config.get('throttle.limit'),
+        },
+      ],
+    }),
+    PrismaModule,
+    TasksModule,
+    UsersModule,
+    AuthModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

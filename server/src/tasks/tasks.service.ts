@@ -8,8 +8,13 @@ export class TasksService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createTask(task: TaskCreateDto) {
+    const { projectId, ...taskData } = task;
+    
     return this.prismaService.task.create({
-      data: task,
+      data: {
+        ...taskData,
+        projectId,
+      },
     });
   }
 

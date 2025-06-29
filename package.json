@@ -1,0 +1,61 @@
+{
+  "name": "tempo-pomodoro",
+  "version": "1.0.0",
+  "description": "A modern Pomodoro timer application built with SolidJS and NestJS",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run start:dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm run start:prod",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "db:generate": "cd server && npx prisma generate",
+    "db:migrate": "cd server && npx prisma migrate dev",
+    "db:seed": "cd server && npx prisma db seed",
+    "db:studio": "cd server && npx prisma studio",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "cd server && npm run test",
+    "test:client": "cd client && npm run test",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint",
+    "format": "npm run format:server && npm run format:client",
+    "format:server": "cd server && npm run format",
+    "format:client": "cd client && npm run format",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:clean": "docker-compose down -v --remove-orphans",
+    "setup": "npm run install:all && npm run db:generate && npm run db:migrate && npm run db:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "pomodoro",
+    "timer",
+    "productivity",
+    "solidjs",
+    "nestjs",
+    "typescript",
+    "postgresql"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tempo-pomodoro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/tempo-pomodoro/issues"
+  },
+  "homepage": "https://github.com/yourusername/tempo-pomodoro#readme"
+} 

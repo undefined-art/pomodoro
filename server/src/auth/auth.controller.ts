@@ -22,13 +22,45 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() body: UserRegisterDto) {
+  async register(
+    @Body() body: UserRegisterDto,
+    @Res({ passthrough: true }) response: Response,
+    @Session() session: Record<string, string>,
+  ) {
     const { email, password, username } = body;
 
-    const hash = await this.authService.generateHash(password);
-    await this.usersService.createUser({ email, username, hash });
+    // Check if user already exists
+    const existingUser = await this.usersService.findUserByEmail(email);
+    if (existingUser) {
+      throw new BadRequestException('User with this email already exists', {
+        cause: new Error(),
+        description: 'User with this email already exists',
+      });
+    }
 
-    return { message: 'User registered successfully' };
+    const hash = await this.authService.generateHash(password);
+    const user = await this.usersService.createUser({ email, username, hash });
+
+    // Set session
+    session.clientId = user.id;
+
+    // Generate tokens
+    const { access_token, refresh_token } = await this.authService.login(user);
+
+    // Set refresh token cookie
+    response.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+    });
+
+    return { 
+      message: 'User registered successfully', 
+      access_token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      }
+    };
   }
 
   @Post('login')
@@ -56,7 +88,15 @@ export class AuthController {
       httpOnly: true,
     });
 
-    return { message: 'Login successful', access_token };
+    return { 
+      message: 'Login successful', 
+      access_token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      }
+    };
   }
 
   @Post('refresh-token')
