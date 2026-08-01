@@ -85,8 +85,6 @@ export class AuthService {
   }
 
   async generateHash(payload: string): Promise<string> {
-    console.log(this.configService.get<string>('jwt.access_secret'));
-
     return await bcrypt.hash(payload, 12);
   }
 

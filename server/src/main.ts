@@ -5,7 +5,6 @@ import * as cookieParser from 'cookie-parser';
 
 import { ValidationPipe } from '@nestjs/common';
 
-
 import { CoreExceptionsFilter } from './global-filters/core-exceptions.filter';
 import { ResponseInterceptor } from './interceptors/response-interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
@@ -17,9 +16,7 @@ async function bootstrap() {
   const httpAdapterHost = app.get(HttpAdapterHost);
   const configService = app.get(ConfigService);
 
-
   const corsOrigin = configService.get<string | string[]>('cors.origin');
-  
 
   app.enableCors({
     origin: corsOrigin,
@@ -31,10 +28,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.use(cookieParser());
 
-
-  app.useGlobalFilters(
-    new CoreExceptionsFilter(httpAdapterHost),
-  );
+  app.useGlobalFilters(new CoreExceptionsFilter(httpAdapterHost));
 
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
@@ -64,10 +58,12 @@ async function bootstrap() {
 
   const port = configService.get<string>('port');
   await app.listen(port);
-  
+
   console.log(`🚀 Application is running on: http://localhost:${port}`);
   console.log(`📊 Environment: ${configService.get<string>('nodeEnv')}`);
-  console.log(`🌐 CORS Origins: ${Array.isArray(corsOrigin) ? corsOrigin.join(', ') : corsOrigin}`);
+  console.log(
+    `🌐 CORS Origins: ${Array.isArray(corsOrigin) ? corsOrigin.join(', ') : corsOrigin}`,
+  );
 }
 
 bootstrap();

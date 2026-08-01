@@ -52,14 +52,14 @@ export class AuthController {
       httpOnly: true,
     });
 
-    return { 
-      message: 'User registered successfully', 
+    return {
+      message: 'User registered successfully',
       access_token,
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
-      }
+      },
     };
   }
 
@@ -88,14 +88,14 @@ export class AuthController {
       httpOnly: true,
     });
 
-    return { 
-      message: 'Login successful', 
+    return {
+      message: 'Login successful',
       access_token,
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
-      }
+      },
     };
   }
 

@@ -1,0 +1,30 @@
+Tempo Pomodoro
+Copyright (c) 2026 undefined-art
+
+This product includes third-party software that is distributed under their
+respective licenses. The following is a list of the principal third-party
+dependencies and their licenses:
+
+Server (server/)
+-----------------
+- NestJS — MIT License (https://nestjs.com)
+- Prisma / Prisma Client — Apache-2.0 License (https://www.prisma.io)
+- @nestjs/jwt / jsonwebtoken — MIT License
+- bcrypt — BSD-3-Clause License
+- class-validator / class-transformer — MIT License
+- express-session / cookie-parser — MIT License
+- @nestjs/throttler — MIT License
+
+Client (client/)
+-----------------
+- SolidJS — MIT License (https://www.solidjs.com)
+- Vite — MIT License (https://vitejs.dev)
+- Tailwind CSS — MIT License (https://tailwindcss.com)
+- @solidjs/router — MIT License
+- axios — MIT License
+- moment — MIT License
+- @modular-forms/solid — MIT License
+
+For the complete and authoritative license texts, please refer to the
+lockfiles (`package-lock.json`, `pnpm-lock.yaml`) and the individual package
+repositories.

@@ -6,25 +6,20 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && npm run start:dev",
-    "dev:client": "cd client && npm run dev",
+    "dev:client": "cd client && pnpm dev",
     "build": "npm run build:server && npm run build:client",
     "build:server": "cd server && npm run build",
-    "build:client": "cd client && npm run build",
+    "build:client": "cd client && pnpm build",
     "start": "cd server && npm run start:prod",
-    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "install:all": "npm install && cd server && npm install && cd ../client && pnpm install",
     "db:generate": "cd server && npx prisma generate",
     "db:migrate": "cd server && npx prisma migrate dev",
     "db:seed": "cd server && npx prisma db seed",
     "db:studio": "cd server && npx prisma studio",
-    "test": "npm run test:server && npm run test:client",
+    "test": "npm run test:server",
     "test:server": "cd server && npm run test",
-    "test:client": "cd client && npm run test",
-    "lint": "npm run lint:server && npm run lint:client",
-    "lint:server": "cd server && npm run lint",
-    "lint:client": "cd client && npm run lint",
-    "format": "npm run format:server && npm run format:client",
-    "format:server": "cd server && npm run format",
-    "format:client": "cd client && npm run format",
+    "test:cov": "cd server && npm run test:cov",
+    "lint": "cd server && npm run lint",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
@@ -48,14 +43,14 @@
     "typescript",
     "postgresql"
   ],
-  "author": "Your Name",
+  "author": "undefined-art",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/tempo-pomodoro.git"
+    "url": "https://github.com/undefined-art/pomodoro.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/tempo-pomodoro/issues"
+    "url": "https://github.com/undefined-art/pomodoro/issues"
   },
-  "homepage": "https://github.com/yourusername/tempo-pomodoro#readme"
+  "homepage": "https://github.com/undefined-art/pomodoro#readme"
 } 

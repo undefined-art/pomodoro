@@ -9,7 +9,7 @@ export class TasksService {
 
   async createTask(task: TaskCreateDto) {
     const { projectId, ...taskData } = task;
-    
+
     return this.prismaService.task.create({
       data: {
         ...taskData,
